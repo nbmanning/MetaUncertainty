@@ -1,5 +1,7 @@
 # Meta-Uncertainty
-Code and data repository for the manuscript "Meta-uncertainty in coupled human and natural systems models" co-led by Manning and 
+Code and data repository for the manuscript "Meta-uncertainty in coupled human and natural systems models" co-led by Manning and Viña
+
+
 
 This repository contains:
 
