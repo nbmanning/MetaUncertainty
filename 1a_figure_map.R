@@ -22,6 +22,20 @@ library(stringr)
 library(scatterpie)
 library(dplyr)
 
+### Create "Figures" Folder if one does not already exist ###
+
+# set relative path
+folder_fig <- "../Figures"
+
+# check for folder 
+if (!dir.exists(folder_fig)) {
+  dir.create(folder_fig, recursive = TRUE)
+  
+  cat("Figures folder created.\n")
+} else {
+  cat("Figures folder already exists.\n")
+}
+
 # 1) Load & Clean Data -----
 # Load the data
 data <- read.csv("MU_Consensus_All175_ManualEdit.csv", stringsAsFactors = FALSE) %>% clean_names()
