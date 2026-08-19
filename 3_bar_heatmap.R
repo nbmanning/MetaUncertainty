@@ -9,7 +9,6 @@
 rm(list = ls())
 
 # 0) Load Libraries --------
-#library(tidyverse)
 library(dplyr)
 library(stringr)
 library(tidyr)
@@ -19,11 +18,9 @@ library(RColorBrewer)
 
 
 # 1) Load data ----
-#data <- read.csv("MU_Consensus_140_woNick_ManualEdit.csv", stringsAsFactors = FALSE) %>% clean_names()
 data <- read.csv("MU_Consensus_All175_ManualEdit.csv", stringsAsFactors = FALSE) %>% clean_names()
-#data <- read.csv("MU_Consensus_All175_ManualEdit_NoneOther.csv", stringsAsFactors = FALSE) %>% clean_names()
 
-
+# filter to only those that include a model and quantify uncertainty 
 data_filtered <- data %>%
   filter(
     `does_the_study_include_a_socio_environmental_model` == "Yes" &
@@ -46,7 +43,7 @@ model_counts
 
 
 
-## 1.2) Get counts of uncertainty quantification approaches
+## 1.2) Get counts of uncertainty quantification approaches -----
 
 uncertainty_counts <- data_filtered %>%
   
@@ -94,10 +91,8 @@ length(princ_duplicated_counts)
 mu_counts <- mu_princ %>% 
   count(`does_the_model_uncertainty_approach_fall_into_any_of_the_following_categories`, name = "count") %>%
   drop_na() %>% 
-  rename(type = does_the_model_uncertainty_approach_fall_into_any_of_the_following_categories) #%>%
-# mutate(type = sub("^$", "None", type)) #%>% 
-# filter(type != c("None", "Other"))
-#filter(type != "")
+  rename(type = does_the_model_uncertainty_approach_fall_into_any_of_the_following_categories) 
+
 
 ## 1.4) Get how many studies addressed more than 1 category of meta-uncertainty ----
 
@@ -122,7 +117,9 @@ multi_category_studies <- data_filtered %>%
 
 multi_category_studies
 
-## 1.5) Test to see if any assesssed all 6 categories
+
+
+## 1.5) Test to see if any assessed all 6 categories ----
 
 target_categories <- c(
   "Knowledge of the system", 
@@ -165,15 +162,6 @@ mu_counts$type = factor(mu_counts$type,
 mu_counts$type <- factor(mu_counts$type, levels=rev(levels(mu_counts$type)))
 
 # plot
-
-# category = gsub("Model specification", "MS", category),
-# category = gsub("Knowledge of the system", "KS", category),
-# category = gsub("Spatial and temporal scale issues", "STS", category),
-# category = gsub("Empirical data limitations", "ED", category),
-# category = gsub("Spatial dependence & heterogeneity issues", "SDH", category),
-# category = gsub("Computing limitations", "CL", category)) %>% 
-#   mutate(category = sub("^$", "None", category))
-
 ggplot(data = mu_counts, aes(x = type, y = count, fill = type)) +
   geom_bar(stat = "identity") +
   scale_fill_manual(values = c(
@@ -199,6 +187,7 @@ ggplot(data = mu_counts, aes(x = type, y = count, fill = type)) +
     axis.text = element_text(size = 17),
     legend.position = "none"
   )
+
 # save 
 ggsave(
   filename = "../Figures/bar_color.png",
@@ -206,7 +195,7 @@ ggsave(
   width = 14, height = 7
 )
 
-# 3) Heatmap ------------
+# 3) Plot Heatmaps ------------
 
 df <- mu_princ
 
@@ -253,6 +242,8 @@ order <- c("CL", "EDL", "KS", "MS", "SDH", "STS")
 df_counts$Var1 <- factor(df_counts$Var1, levels = rev(order))
 df_counts$Var2 <- factor(df_counts$Var2, levels = rev(order))
 
+
+## 3.1) Plot Pair-wise Heatmap -------
 ggplot(df_counts, aes(x = Var1, y = Var2, fill = perc)) +
   geom_tile() +
   geom_text(aes(label = n), color = "black") +
@@ -275,29 +266,8 @@ ggsave(
   width = 10, height = 5
 )
 
-# # now with percents - e.g. what percent of the time were these assessed together?
-# ggplot(df_counts, aes(x = Var1, y = Var2, fill = perc)) +
-#   geom_tile() +
-#   #geom_text(aes(label = n), color = "black") +
-#   geom_text(aes(label = paste0(round(perc), "%")), color = "black") +
-#   #scale_fill_gradient(low = "white", high = "red", name = "Percent") +
-#   #scale_fill_gradient(name = "Percent")+
-#   #scale_fill_distiller(name = "Percent", palette ="RdBu", direction = -1)+ # or direction=1
-#   scale_fill_distiller(name = "Percent", palette ="Blues", direction = 1)+ # or direction=
-#   theme_minimal() +
-#   labs(x = "", y = "") +
-#   theme(axis.text.x = element_text(angle = 45, hjust = 1))
-# 
-# # save 
-# ggsave(
-#   filename = "../Figures/heat_perc.png",
-#   dpi = 300,
-#   width = 10, height = 6
-# )
-# 
-# 
-# 
-# # Heatmap over time ------------
+
+## 3.2) Heatmap over time ------------
 data_year <- df_selected %>%
   separate(study_id, into = c("late_name", "year"), sep = "\\s") %>%
   mutate(year = as.numeric(year))
@@ -323,69 +293,22 @@ df_y_counts <- df_y_pairs %>%
   right_join(df_y_max) %>%
   # calculate percentages
   mutate(perc = (n/total_cat)*100)
-# 
-# # Plot heatmap
-# 
-# # with % of each typology on the inside 
-# ggplot(df_y_counts, aes(x = factor(year), y = category, fill = perc)) +
-#   geom_tile() +
-#   geom_text(aes(label = paste0(round(perc),"%")), color = "black") +
-#   #scale_fill_gradient(low = "white", high = "red", name = "Percent") +
-#   #scale_fill_gradient(name = "Percent")+
-#   #scale_fill_distiller(name = "Percent", palette ="RdBu", direction = -1)+ # or direction=1
-#   scale_fill_distiller(name = "% of Typology", 
-#                        #breaks = c(2,6,10), labels = c(2, 6, 10),
-#                        palette ="Blues", direction = 1)+ # or direction=
-#   theme_minimal() +
-#   labs(x = "", y = "") +
-#   theme(axis.text.x = element_text(angle = 45, hjust = 1),
-#         axis.text = element_text(size = 20))
-# 
-# # save 
-# ggsave(
-#   filename = "../Figures/heat_y_perc.png",
-#   dpi = 300,
-#   width = 11, height = 4
-# )
 
-# with n on the inside ---
 # re-order
 df_y_counts$category <- factor(
   df_y_counts$category,
   levels = rev(order)
 )
-# 
-# # plot
-# ggplot(df_y_counts, aes(x = factor(year), y = category, fill = n)) +
-#   geom_tile() +
-#   geom_text(aes(label = n), color = "black") +
-#   #scale_fill_gradient(low = "white", high = "red", name = "Percent") +
-#   #scale_fill_gradient(name = "Percent")+
-#   #scale_fill_distiller(name = "Percent", palette ="RdBu", direction = -1)+ # or direction=1
-#   scale_fill_distiller(name = "n Studies", 
-#                        breaks = c(2,6,10), labels = c(2, 6, 10),
-#                        palette ="Blues", direction = 1)+ # or direction=
-#   theme_minimal() +
-#   labs(x = "", y = "") +
-#   theme(axis.text.x = element_text(angle = 45, hjust = 1),        
-#         axis.text = element_text(size = 14),
-#         legend.position = "bottom")
-# 
-# 
-# # save 
-# ggsave(
-#   filename = "../Figures/heat_y_nstudies.png",
-#   dpi = 300,
-#   width = 10, height = 5
-# )
 
-# with % of each typology as the fill, but with labels of n studies inside  
+# Plot Heatmap with % of each typology as the fill, but with labels of n studies inside  
 ggplot(df_y_counts, aes(x = factor(year), y = category, fill = perc)) +
   geom_tile() +
   geom_text(aes(label = n), color = "black") +
-  scale_fill_distiller(name = "Percent", 
-                       #breaks = c(2,6,10), labels = c(2, 6, 10),
-                       palette ="Blues", direction = 1)+ # or direction=
+  scale_fill_distiller(
+    name = "Percent", 
+    palette ="Blues", 
+    direction = 1
+    )+ 
   theme_minimal() +
   labs(x = "", y = "") +
   theme(axis.text.x = element_text(angle = 45, hjust = 1),
