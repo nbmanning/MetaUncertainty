@@ -1,5 +1,5 @@
 # title: 2_shiny_tern_weighted_size_5Model.R
-# purpose: import the blind reviewer + consensus CSV to count the number of disagreements
+# purpose: Code used to create the R Shiny application housed at https://nbm-msu.shinyapps.io/metaunc_app/ 
 # created May 2026
 # last edited: May 2026
 
