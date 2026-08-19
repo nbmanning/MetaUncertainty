@@ -6,3 +6,7 @@
 0_extraction_assignment.R
 1_check_progress.R
 2_reassign_unfinished.R
+
+0a_extraction_assignment.R
+0b_check_progress.R
+0c_reassign_unfinished.R
