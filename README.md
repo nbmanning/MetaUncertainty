@@ -3,10 +3,10 @@ Code and data repository for the manuscript "Meta-uncertainty in coupled human a
 
 This repository contains:
 - *MU_Consensus_All175_ManualEdit.csv*
---This CSV contains the consensus responses to each of the studies included in our review. 
+  -This CSV contains the consensus responses to each of the studies included in our review. 
 
 - *MU_ReviewerConsensus_Extraction_Blind.csv*
---This CSV contains both of the initial reviewer responses as well as the consensus responses to each of the studies included in our review. 
+  -This CSV contains both of the initial reviewer responses as well as the consensus responses to each of the studies included in our review. 
 
 - *1a_figure_map.R*
 --NOTE: run this script first to create the “Figures” folder where all figures will be saved to! 
