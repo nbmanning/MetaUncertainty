@@ -1,15 +1,17 @@
 # title: 3a_ReviewerConsensus.R
 # purpose: import the blind reviewer + consensus CSV to count the number of disagreements
 # created June 2026
-# last edited: June 2026
+# last edited: July 2026
 
 # author: Nick Manning
 
 # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # 
 rm(list = ls())
+
 # 0) Load Libraries --------
 library(dplyr)
 library(tidyr)
+library(janitor)
 
 # 1) (Dis)Agreement on if the study includes a model --------
 # Read data
@@ -91,9 +93,10 @@ nrow(df_wide) - nrow(n_disagree)
 1 - nrow(n_disagree)/nrow(df_wide)
 
 
-# 3) Why 148 for some and 146 here?? -----
-# A: There were two studies, covidence ID #7 & # 194 which were marked as Other: yes by the consensus reviewer in the blind CSV. I changed these to Yes and the numbers agreed at 148. 
-library(janitor)
+# 3) Triple-Check Agreements -----
+
+# NOTE: There were two studies, covidence ID #7 & # 194 which were marked as Other: yes by the consensus reviewer in the blind CSV. I changed these to Yes and the numbers agreed at 148. 
+
 test_df_148 <- read.csv("MU_Consensus_All175_ManualEdit.csv", stringsAsFactors = FALSE) %>% clean_names()
 
 # Filter for studies that include both socio-environmental models and quantify uncertainty
@@ -108,3 +111,5 @@ numcov_df_146 <- df_wide$cov_num
 #str(numcov_df_146)
 
 setdiff(numcov_df_148, numcov_df_146)
+# SHOULD BE integer(0)! If so, then the correct CSVs were used here. 
+
