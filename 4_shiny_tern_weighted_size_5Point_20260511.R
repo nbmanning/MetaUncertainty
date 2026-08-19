@@ -1,3 +1,12 @@
+# title: 2_shiny_tern_weighted_size_5Model.R
+# purpose: import the blind reviewer + consensus CSV to count the number of disagreements
+# created May 2026
+# last edited: May 2026
+
+# author: Nick Manning
+
+# # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # 
+
 library(shiny)
 library(shinyBS)  # for tooltips
 library(ggtern)
@@ -104,7 +113,7 @@ ui <- fluidPage(
       sliderInput("cl4", "Computing Limitations (Model 4):", 0, 3, 0),
       bsTooltip("cl4", "Uncertainty due to computational constraints", "right", options = list(container = "body"))
     ),
-    # --- Toggle for Model 4 ---
+    # --- Toggle for Model 5 ---
     checkboxInput("show5", "Show Model 5", value = FALSE),
     
     # Only show the second set of sliders when toggled on
@@ -245,11 +254,7 @@ server <- function(input, output) {
           name   = "Point (Fill)",
           drop   = TRUE
         ) +
-        # future to-do: change this to vary the outline shape (dotted, dashed, etc.) to be more inclusive 
-        # scale_shape_manual(
-        #   values = c("<=6" = 21, "6-12" = 22, "12-18" = 24),
-        #   name = "Total (Border Line Type)"
-        # ) +
+
         theme_bw() +
         labs(
           title = "Ternary Plot of Meta-Uncertainty Categories",
