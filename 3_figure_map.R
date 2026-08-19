@@ -164,6 +164,7 @@ other_count <- filtered_data %>%
 manual_world <- map_data %>% rbind(other_count)
 map_data_world <- manual_world %>% left_join(usa_counts_wide) 
 
+## 3.1) Plot ScatterPie of Meta-Uncertainty Principles -------
 # plot
 ggplot() + 
  # plot background map
@@ -204,7 +205,7 @@ ggsave(
   width = 10, height = 6
 )
 
-## (Omitted from Manuscript) 3.2: ScatterPie with 3 Elements -------
+## 3.2: Plot ScatterPie with 3 Meta-Uncertainty Categories (Omitted from Manuscript) -------
 
 # Set the ternary principles
 usa_tern_counts <- usa %>% 
