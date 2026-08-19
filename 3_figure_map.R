@@ -2,7 +2,7 @@
 # purpose: import the results file (post-consensus) and create a map based on studies that include a model and quantify uncertainty
 
 # created on: March 2025
-# last edited: March 2025
+# last edited: August 2026
 
 # author: Nick Manning
 
@@ -11,7 +11,6 @@
 rm(list = ls())
 
 # 0) Load Libraries --------
-#library(tidyverse)
 library(ggplot2)
 library(tidyr)
 library(maps)
@@ -25,8 +24,6 @@ library(dplyr)
 
 # 1) Load & Clean Data -----
 # Load the data
-#data <- read.csv("MU_Consensus_TestCode.csv", stringsAsFactors = FALSE) %>% clean_names()
-#data <- read.csv("MU_Consensus_140_woNick_ManualEdit.csv", stringsAsFactors = FALSE) %>% clean_names()
 data <- read.csv("MU_Consensus_All175_ManualEdit.csv", stringsAsFactors = FALSE) %>% clean_names()
 
 # Filter for studies that include both socio-environmental models and quantify uncertainty
