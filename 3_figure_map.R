@@ -8,6 +8,8 @@
 
 # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # 
 
+rm(list = ls())
+
 # 0) Load Libraries --------
 #library(tidyverse)
 library(ggplot2)
@@ -91,19 +93,19 @@ names(map_data)
 # 3) Plot -------
 
 # plot 
-ggplot() +
-  geom_polygon(data = world, aes(x = long, y = lat, group = group), 
-               fill = "lightgray", color = "white") +
-  geom_point(data = map_data, aes(x = long, y = lat, size = count), 
-             color = "blue", alpha = 0.7) +
-  scale_size_continuous(range = c(3, 10)) +  # makes the sizes of the circles larger; c(3,10) makes the smallest 3x normal and the largest 10x the normal
-  theme_minimal() +
-  labs(title = "Countries with Socio-Environmental Models and Uncertainty Quantification",
-       size = "Number of Studies",
-       x = "", y = "")+
-  theme(
-    axis.text = element_blank()
-  )
+# ggplot() +
+#   geom_polygon(data = world, aes(x = long, y = lat, group = group), 
+#                fill = "lightgray", color = "white") +
+#   geom_point(data = map_data, aes(x = long, y = lat, size = count), 
+#              color = "blue", alpha = 0.7) +
+#   scale_size_continuous(range = c(3, 10)) +  # makes the sizes of the circles larger; c(3,10) makes the smallest 3x normal and the largest 10x the normal
+#   theme_minimal() +
+#   labs(title = "Countries with Socio-Environmental Models and Uncertainty Quantification",
+#        size = "Number of Studies",
+#        x = "", y = "")+
+#   theme(
+#     axis.text = element_blank()
+#   )
 
 # # save 
 # ggsave(
@@ -181,11 +183,11 @@ usa_counts <- usa %>%
          #region = "USA"
          )
 
-ggplot(usa_counts, aes(x="", y=count, fill=type)) +
-  geom_bar(stat="identity", width=1, color="white") +
-  coord_polar("y", start=0) +
-  
-  theme_void() # remove background, grid, numeric labels
+# ggplot(usa_counts, aes(x="", y=count, fill=type)) +
+#   geom_bar(stat="identity", width=1, color="white") +
+#   coord_polar("y", start=0) +
+#   
+#   theme_void() # remove background, grid, numeric labels
 
 # get usa_counts wide to merge with maps_data
 usa_counts_wide <- usa_counts %>% 
@@ -261,11 +263,11 @@ usa_tern_counts <- usa %>%
          #region = "USA"
   )
 
-ggplot(usa_tern_counts, aes(x="", y=count, fill=type)) +
-  geom_bar(stat="identity", width=1, color="white") +
-  coord_polar("y", start=0) +
-  
-  theme_void() # remove background, grid, numeric labels
+# ggplot(usa_tern_counts, aes(x="", y=count, fill=type)) +
+#   geom_bar(stat="identity", width=1, color="white") +
+#   coord_polar("y", start=0) +
+#   
+#   theme_void() # remove background, grid, numeric labels
 
 # get usa_counts wide to merge with maps_data
 usa_tern_counts_wide <- usa_tern_counts %>% 
@@ -308,33 +310,33 @@ custom_colors <- c(
   #"Other" = "gray60" #mideum-light gray
 )
 
-# plot
-ggplot() + 
-  geom_polygon(data = world, aes(x = long, y = lat, group = group), 
-               fill = "lightgray", color = "white") +
-  geom_scatterpie(aes(x=long, y=lat, group=region, r = count), 
-                  data=map_tern_data_world,
-                  cols=c("Data", "System", "Unit")) +
-  coord_equal()+
-  theme_minimal() +
-  scale_fill_manual(values = custom_colors)+
-  labs(title = "Studies with Socio-Environmental Models and Uncertainty Quantification",
-       size = "Number of Studies",
-       x = "", y = ""
-  )+
-  theme(
-    axis.text = element_blank(),
-    legend.title = element_blank(),
-    plot.title = element_text(hjust = 0.5)
-  )+
-  geom_scatterpie_legend(map_data_world$count, x=-155, y=-45)
-
-# save
-ggsave(
-  filename = "../Figures/map_tern_scatter.png",
-  dpi = 300,
-  width = 4, height = 3
-)
+# # plot
+# ggplot() + 
+#   geom_polygon(data = world, aes(x = long, y = lat, group = group), 
+#                fill = "lightgray", color = "white") +
+#   geom_scatterpie(aes(x=long, y=lat, group=region, r = count), 
+#                   data=map_tern_data_world,
+#                   cols=c("Data", "System", "Unit")) +
+#   coord_equal()+
+#   theme_minimal() +
+#   scale_fill_manual(values = custom_colors)+
+#   labs(title = "Studies with Socio-Environmental Models and Uncertainty Quantification",
+#        size = "Number of Studies",
+#        x = "", y = ""
+#   )+
+#   theme(
+#     axis.text = element_blank(),
+#     legend.title = element_blank(),
+#     plot.title = element_text(hjust = 0.5)
+#   )+
+#   geom_scatterpie_legend(map_data_world$count, x=-155, y=-45)
+# 
+# # save
+# ggsave(
+#   filename = "../Figures/map_tern_scatter.png",
+#   dpi = 300,
+#   width = 4, height = 3
+# )
 
 # 4) Pie plots ------
 
