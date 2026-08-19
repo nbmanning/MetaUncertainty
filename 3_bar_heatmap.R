@@ -349,7 +349,6 @@ df_y_counts <- df_y_pairs %>%
 # )
 
 # with n on the inside ---
-
 # re-order
 df_y_counts$category <- factor(
   df_y_counts$category,
