@@ -12,7 +12,7 @@ This repository contains:
 - This CSV contains both of the initial reviewer responses as well as the consensus responses to each of the studies included in our review. 
 
 *1a_figure_map.R*
-- NOTE: run this script first to create the “Figures” folder where all figures will be saved to! 
+- **NOTE: run this script *first* to create the “Figures” folder where all figures will be saved to!** 
 - This script imports the results file (post-consensus) and creates a map of how many studies focus on each region/country with pie charts of the meta-uncertainty principles and categories quantified in these studies 
 - Inputs include “MU_Consensus_All175_ManualEdit.csv" and outputs include Figure 2 (“map_scatter.png”) and Figures SF3 (“pie_typ_region.png”) and SF4 (“pie_tern_region.png”)
 
